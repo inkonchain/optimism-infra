@@ -324,6 +324,10 @@ def update_cluster_membership(network: str):
     error = False
     for sequencer in sequencers:
         if sequencer.sequencer_id in membership:
+          expected_suffrage = 0 if sequencer.voting else 1
+          if expected_suffrage != membership[sequencer.sequencer_id]["suffrage"]:
+              print_error(f"{sequencer.sequencer_id} has mismatched voting status.");
+
             if (
                 int(not sequencer.voting)
                 != membership[sequencer.sequencer_id]["suffrage"]
